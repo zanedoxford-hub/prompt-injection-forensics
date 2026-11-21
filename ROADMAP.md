@@ -3,7 +3,7 @@
 Small improvements, one at a time.
 
 - [x] Write-up, results and figures
-- [ ] Add a glossary of key terms
+- [x] Add a glossary of key terms
 - [ ] Add an attack-type examples table (defanged, harmless examples)
 - [ ] Add a 'How to reproduce' section (model, settings, threshold)
 - [ ] Add an OWASP LLM Top 10 mapping table

@@ -63,6 +63,28 @@ Mapped to OWASP Top 10 for LLM Applications, LLM01 Prompt Injection:
 - Static detection threshold, as described above.
 - Covers structural prompt injection only, not jailbreaks or training-data poisoning.
 
+## Glossary
+
+| Term | Meaning in this project |
+|---|---|
+| **Prompt injection** | Text placed in a model's input that tries to override the developer's instructions, for example "ignore the task above and do this instead". |
+| **Indirect prompt injection** | A prompt injection hidden in content the model retrieves or is given (a document, web page or email) rather than typed by the user. All 8 attacks here are of this kind. |
+| **Payload** | The injected instruction itself, the part of a malicious document that the forensic tool tries to locate. |
+| **RAG (retrieval-augmented generation)** | A pattern where documents are retrieved and pasted into the prompt so the model can use them. Here the model summarises the retrieved documents. |
+| **Context window** | Everything the model reads in one go: system prompt, user request and retrieved documents. Because they all share this one channel, the model can't reliably tell instructions from data. |
+| **Cross-entropy (token surprise)** | How unexpected each token is to the model, measured as the negative log-probability it assigned to that token. A sudden jump suggests the text has changed direction. |
+| **Perplexity** | The exponential of the average cross-entropy over a span of text. A single summary of how surprising the whole span is. |
+| **Threshold** | The cross-entropy value (6.5 in this project) above which a token is flagged as a likely injection boundary. |
+| **Attack success rate (ASR)** | The share of malicious documents that made the model follow the injected instruction instead of the summarisation task. |
+| **Dual-stage defence** | The defence tested here: wrap untrusted documents in XML tags and tell the model, in the system instruction, to ignore any instructions inside them. |
+| **Greedy decoding** | Always picking the single most likely next token, so the same input always gives the same output. |
+| **Precision** | Of the documents the tool flagged, the fraction that were really malicious. |
+| **Recall** | Of the malicious documents, the fraction the tool flagged. |
+| **F1 score** | The harmonic mean of precision and recall, one number that balances the two. |
+| **False positive / alert fatigue** | A benign document flagged as malicious. Too many of these and analysts start ignoring alerts. |
+| **Least privilege** | Giving the model and its tools only the access they need, so a successful injection can do less damage. |
+| **Forensic readiness** | Collecting and keeping the logs (prompts, context, outputs, ideally token probabilities) needed to investigate an incident before one happens. |
+
 ## Code
 
 The experiment ran in a Google Colab notebook. A cleaned-up version of the notebook will be added to this repository.
